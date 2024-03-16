@@ -59,10 +59,20 @@ public class AuthorDaoImplTests {
         Author author = TestDataUtil.createSingleTestAuthor();
         underTest.update(author, author.getId());
         verify(jdbcTemplateMock).update(
-          eq("UPDATE authors SET id = ?, name = ?, age= ? WHERE id = ?"),
+                eq("UPDATE authors SET id = ?, name = ?, age= ? WHERE id = ?"),
                 eq(1L),
                 eq("Carol Raccoon"),
                 eq(25),
+                eq(1L)
+        );
+    }
+
+    @Test
+    public void testThatDeleteGeneratesTheCorrectSQL() {
+        Author author = TestDataUtil.createSingleTestAuthor();
+        underTest.delete(author.getId());
+        verify(jdbcTemplateMock).update(
+                eq("DELETE FROM authors where id = ?"),
                 eq(1L)
         );
     }
