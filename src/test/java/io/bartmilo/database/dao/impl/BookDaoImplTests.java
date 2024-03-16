@@ -54,4 +54,18 @@ public class BookDaoImplTests {
                 ArgumentMatchers.<BookDaoImpl.BookRowMapper>any()
         );
     }
+
+    @Test
+    public void testThatUpdateGenerateCorrectSQL() {
+        Book book = TestDataUtil.createSingleTestBook();
+        underTest.update(book, book.getIsbn());
+
+        verify(jdbcTemplateMock).update(
+                eq("UPDATE books SET isbn = ?, title = ?, author_id = ? WHERE isbn = ?"),
+                eq("978-83-64640-14-8"),
+                eq("Elementor Fundamentals"),
+                eq(1L),
+                eq(book.getIsbn())
+        );
+    }
 }
