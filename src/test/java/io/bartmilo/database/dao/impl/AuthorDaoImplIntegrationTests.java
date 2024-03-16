@@ -66,5 +66,16 @@ public class AuthorDaoImplIntegrationTests {
         assertThat(result.get()).isEqualTo(author);
         assertThat(result.get().getName()).isEqualTo("UPDATED");
     }
+
+    @Test
+    public void testThatAuthorCanBeDeleted() {
+        Author author = TestDataUtil.createSingleTestAuthor();
+        underTest.create(author);
+
+        underTest.delete(author.getId());
+        Optional<Author> result = underTest.findOne(author.getId());
+
+        assertThat(result).isEmpty();
+    }
 }
 
