@@ -1,9 +1,10 @@
 package io.bartmilo.database;
 
-import io.bartmilo.database.domain.Author;
-import io.bartmilo.database.domain.Book;
+import io.bartmilo.database.domain.dto.AuthorDto;
+import io.bartmilo.database.domain.dto.BookDto;
+import io.bartmilo.database.domain.entities.AuthorEntity;
+import io.bartmilo.database.domain.entities.BookEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class TestDataUtil {
@@ -11,61 +12,77 @@ public final class TestDataUtil {
 
     }
 
-    public static Author createSingleTestAuthor() {
-        return Author.builder()
+    public static AuthorDto createSingleTestAuthorDto() {
+        return AuthorDto.builder()
                 .id(1L)
                 .name("Carol Raccoon")
                 .age(25)
                 .build();
     }
 
-    public static List<Author> createListOfTestAuthors() {
-        List<Author> listOfAuthors;
-        Author firstAuthor = createSingleTestAuthor();
+    public static BookDto createSingleTestBookDto(AuthorDto author) {
+        return BookDto.builder()
+                .isbn("978-83-64640-14-8")
+                .title("Elementor Fundamentals")
+                .author(author)
+                .build();
+    }
 
-        Author secondAuthor = Author.builder()
+    public static AuthorEntity createSingleTestAuthorEntity() {
+        return AuthorEntity.builder()
+                .id(1L)
+                .name("Carol Raccoon")
+                .age(25)
+                .build();
+    }
+
+    public static List<AuthorEntity> createListOfTestAuthorsEntities() {
+        List<AuthorEntity> listOfAuthorEntities;
+        AuthorEntity firstAuthorEntity = createSingleTestAuthorEntity();
+
+        AuthorEntity secondAuthorEntity = AuthorEntity.builder()
                 .id(2L)
                 .name("Matty Gpt")
                 .age(27)
                 .build();
 
-        Author thirdAuthor = Author.builder()
+        AuthorEntity thirdAuthorEntity = AuthorEntity.builder()
                 .id(3L)
                 .name("Michael Cyrus")
                 .age(41)
                 .build();
 
-        listOfAuthors = List.of(firstAuthor, secondAuthor, thirdAuthor);
-        return listOfAuthors;
+        listOfAuthorEntities = List.of(firstAuthorEntity, secondAuthorEntity, thirdAuthorEntity);
+        return listOfAuthorEntities;
     }
 
-    public static Book createSingleTestBook() {
-        return Book.builder()
+    public static BookEntity createSingleTestBookEntity() {
+        return BookEntity.builder()
                 .isbn("978-83-64640-14-8")
                 .title("Elementor Fundamentals")
-                .authorId(1L)
+                .authorEntity(createSingleTestAuthorEntity())
                 .build();
     }
 
-    public static List<Book> createListOfTestBooks() {
-        List<Book> listOfBooks;
+    public static List<BookEntity> createListOfTestBooksEntities() {
+        List<BookEntity> listOfBookEntities;
 
-        Book firstBook = createSingleTestBook();
+        BookEntity firstBookEntity = createSingleTestBookEntity();
 
-        Book secondBook = Book.builder()
+        BookEntity secondBookEntity = BookEntity.builder()
                 .isbn("878-83-64540-17-1")
                 .title("How To Develop SaaS App That Sells")
-                .authorId(2L)
+                .authorEntity(createListOfTestAuthorsEntities().get(1))
                 .build();
 
-        Book thirdBook = Book.builder()
+        BookEntity thirdBookEntity = BookEntity.builder()
                 .isbn("921-34-64320-12-3")
                 .title("From Nerf Guns To Software House")
-                .authorId(3L)
+                .authorEntity(createListOfTestAuthorsEntities().get(2))
                 .build();
 
-        listOfBooks = List.of(firstBook, secondBook, thirdBook);
+        listOfBookEntities = List.of(firstBookEntity, secondBookEntity, thirdBookEntity);
 
-        return listOfBooks;
+        return listOfBookEntities;
     }
 }
